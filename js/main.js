@@ -76,7 +76,7 @@ const createComments = (quantity, dataMessage, dataName) => {
   }));
 };
 
-const createPhotos = (quantity, comments) => {
+const createPhotos = (quantity) => {
   const randomId = getRandomUniqeInt(1, quantity);
   const randomUrl = getRandomUniqeInt(1, quantity);
   return Array.from({ length: quantity }).map(() => ({
@@ -84,10 +84,10 @@ const createPhotos = (quantity, comments) => {
     url: createUrl(randomUrl()),
     description: arrDescription[getRandomInt(0, 24)],
     likes: getRandomInt(15, 200),
-    comments: comments,
+    comments: createComments(getRandomInt(0, 30), arrMessage, arrName),
   }));
 };
 
-const result = createPhotos(25, createComments(getRandomInt(0, 30), arrMessage, arrName));
+const result = createPhotos(25);
 
 console.log(result);
