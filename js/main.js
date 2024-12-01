@@ -61,20 +61,20 @@ const createRandomMassege = (data) => {
     MIN: 1,
     MAX: 2,
   };
-  const Message = {
+  const MessageRange = {
     MIN: 0,
     MAX: 7,
   };
   let message = '';
   const quantityCall = getRandomInt(CallQty.MIN, CallQty.MAX);
   for (let i = 0; i < quantityCall; i++) {
-    message += ` ${ data[getRandomInt(Message.MIN, Message.MAX)]}`;
+    message += ` ${data[getRandomInt(MessageRange.MIN, MessageRange.MAX)]}`;
   }
   return message;
 };
 
 const createComments = (quantity, dataMessage, dataName) => {
-  const DataName = {
+  const DataNameRange = {
     MIN: 0,
     MAX: 7,
   };
@@ -84,20 +84,20 @@ const createComments = (quantity, dataMessage, dataName) => {
     id: randomId(),
     avatar: createUrl(randomUrl(), true),
     message: createRandomMassege(dataMessage),
-    name: dataName[getRandomInt(DataName.MIN, DataName.MAX)],
+    name: dataName[getRandomInt(DataNameRange.MIN, DataNameRange.MAX)],
   }));
 };
 
 const createPhotos = (quantity) => {
-  const Descriptions = {
+  const DescriptionsRange = {
     MIN: 0,
     MAX: 24,
   };
-  const Likes = {
+  const LikesRange = {
     MIN: 15,
     MAX: 200,
   };
-  const Comments = {
+  const CommentsRange = {
     MIN: 0,
     MAX: 30,
   };
@@ -106,9 +106,9 @@ const createPhotos = (quantity) => {
   return Array.from({ length: quantity }).map(() => ({
     id: randomId(),
     url: createUrl(randomUrl()),
-    description: descriptions[getRandomInt(Descriptions.MIN, Descriptions.MAX)],
-    likes: getRandomInt(Likes.MIN, Likes.MAX),
-    comments: createComments(getRandomInt(Comments.MIN, Comments.MAX), messages, names),
+    description: descriptions[getRandomInt(DescriptionsRange.MIN, DescriptionsRange.MAX)],
+    likes: getRandomInt(LikesRange.MIN, LikesRange.MAX),
+    comments: createComments(getRandomInt(CommentsRange.MIN, CommentsRange.MAX), messages, names),
   }));
 };
 
