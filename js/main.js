@@ -1,5 +1,4 @@
 import { createPhotos } from './data.js';
+import { appendPhotos } from './preview.js';
 
-const result = createPhotos(25);
-
-console.log(result);
+appendPhotos(createPhotos(25));
