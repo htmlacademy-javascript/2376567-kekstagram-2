@@ -1,11 +1,14 @@
+const commentElement = document.querySelector('.social__comment');
 const makeCommentsElement = (comments) => {
   const socialsFragment = new DocumentFragment();
   comments.forEach(({avatar, name, message}) => {
-    const commentElement = document.createElement('li');
-    commentElement.classList.add('social__comment');
-    commentElement.innerHTML =
-      `<img class="social__picture" src=${avatar} alt=${name} width="35" height="35"> <p class="social__text">${message}</p>`;
-    socialsFragment.appendChild(commentElement);
+    const clonnedCommentElement = commentElement.cloneNode(true);
+    const socialPictureElement = clonnedCommentElement.querySelector('.social__picture');
+    const socialTextElement = clonnedCommentElement.querySelector('.social__text');
+    socialPictureElement.src = avatar;
+    socialPictureElement.alt = name;
+    socialTextElement.textContent = message;
+    socialsFragment.appendChild(clonnedCommentElement);
   });
   return socialsFragment;
 };
