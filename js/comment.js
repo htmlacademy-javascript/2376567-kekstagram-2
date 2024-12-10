@@ -1,5 +1,5 @@
 const commentElement = document.querySelector('.social__comment');
-const makeCommentsElement = (comments) => {
+const renderCommentsElement = (comments) => {
   const socialsFragment = new DocumentFragment();
   comments.forEach(({avatar, name, message}) => {
     const clonnedCommentElement = commentElement.cloneNode(true);
@@ -13,5 +13,5 @@ const makeCommentsElement = (comments) => {
   return socialsFragment;
 };
 
-export { makeCommentsElement };
+export { renderCommentsElement };
 

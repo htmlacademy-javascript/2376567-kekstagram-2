@@ -1,5 +1,5 @@
 import { isEscKey } from './utils';
-import { makeCommentsElement } from './comment';
+import { renderCommentsElement } from './comment';
 
 const bodyElement = document.querySelector('body');
 const picturesElement = bodyElement.querySelector('.pictures');
@@ -11,34 +11,17 @@ const likesCountElement = bigPictureElement.querySelector('.likes-count');
 const commentTotalElement = bigPictureElement.querySelector('.social__comment-total-count');
 const socialCommentsElement = bigPictureElement.querySelector('.social__comments');
 
-const onPictureElementClick = (event, data) => {
+const renderPhotos = (photos, index) => {
 
-  const renderElements = (photos, index) => {
+  const {url, description, likes, comments} = photos[index];
 
-    const {url, description, likes, comments} = photos[index];
+  imgElement.src = url;
+  socialCaptionElement.textContent = description;
+  likesCountElement.textContent = likes;
+  commentTotalElement.textContent = comments.length;
 
-    imgElement.src = url;
-    socialCaptionElement.textContent = description;
-    likesCountElement.textContent = likes;
-    commentTotalElement.textContent = comments.length;
-
-    socialCommentsElement.textContent = null;
-    socialCommentsElement.appendChild(makeCommentsElement(comments));
-  };
-
-  if (event.target.closest('a.picture')) {
-
-    const id = event.target.dataset.id - 1;
-
-    bigPictureElement.classList.remove('hidden');
-    event.preventDefault();
-    renderElements(data, id);
-    bodyElement.classList.add('modal-open');
-    cancelElement.addEventListener('click', onCancelElementClick);
-    document.addEventListener('keydown', onDocumentKeydown);
-    bigPictureElement.addEventListener('click', onBigPictureElementClick);
-  }
-
+  socialCommentsElement.textContent = null;
+  socialCommentsElement.appendChild(renderCommentsElement(comments));
 };
 
 const closeModal = () => {
@@ -47,6 +30,23 @@ const closeModal = () => {
   cancelElement.removeEventListener('click', onCancelElementClick);
   document.removeEventListener('keydown', onDocumentKeydown);
   bigPictureElement.removeEventListener('click', onBigPictureElementClick);
+};
+
+const onPictureElementClick = (event, data) => {
+
+  if (event.target.closest('a.picture')) {
+
+    const id = event.target.dataset.id - 1;
+
+    bigPictureElement.classList.remove('hidden');
+    event.preventDefault();
+    renderPhotos(data, id);
+    bodyElement.classList.add('modal-open');
+    cancelElement.addEventListener('click', onCancelElementClick);
+    document.addEventListener('keydown', onDocumentKeydown);
+    bigPictureElement.addEventListener('click', onBigPictureElementClick);
+  }
+
 };
 
 function onCancelElementClick() {
