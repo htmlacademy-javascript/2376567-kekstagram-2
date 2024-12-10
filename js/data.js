@@ -65,11 +65,15 @@ const createComments = (quantity, dataMessage, dataName) => {
     MIN: 0,
     MAX: 7,
   };
+
+  const AvatarQty = {
+    MIN: 1,
+    MAX: 6,
+  };
   const randomId = getRandomUniqueInt(1, quantity);
-  const randomUrl = getRandomUniqueInt(1, quantity);
   return Array.from({ length: quantity }).map(() => ({
     id: randomId(),
-    avatar: createUrl(randomUrl(), true),
+    avatar: createUrl(getRandomInt(AvatarQty.MIN, AvatarQty.MAX), true),
     message: createRandomMassege(dataMessage),
     name: dataName[getRandomInt(DataNameRange.MIN, DataNameRange.MAX)],
   }));
@@ -96,7 +100,7 @@ const createPhotos = (quantity) => {
     description: descriptions[getRandomInt(DescriptionsRange.MIN, DescriptionsRange.MAX)],
     likes: getRandomInt(LikesRange.MIN, LikesRange.MAX),
     comments: createComments(getRandomInt(CommentsRange.MIN, CommentsRange.MAX), messages, names),
-  }));
+  })).sort((a, b) => a.id - b.id);
 };
 
 export { createPhotos };
