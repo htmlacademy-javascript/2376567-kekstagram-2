@@ -1,5 +1,5 @@
 import { isEscKey } from './utils';
-import { commentsLoader, loadMoreComments } from './comment';
+import { commentsManeger } from './comment';
 
 const bodyElement = document.querySelector('body');
 const picturesElement = bodyElement.querySelector('.pictures');
@@ -17,15 +17,17 @@ const renderPhotos = (photos, index) => {
 
   const { url, description, likes, comments } = photos[index];
 
-  const loadedComments = commentsLoader(comments);
+  const pictureComments = commentsManeger();
+
+  const loadedComments = pictureComments.commentsLoader(comments);
 
   imgElement.src = url;
   socialCaptionElement.textContent = description;
   likesCountElement.textContent = likes;
   commentTotalElement.textContent = comments.length;
 
-  loadMoreComments(loadedComments);
-  onCommentsLoaderElementClick = () => loadMoreComments(loadedComments);
+  pictureComments.loadMoreComments(loadedComments);
+  onCommentsLoaderElementClick = () => pictureComments.loadMoreComments(loadedComments);
   commentsLoaderElement.addEventListener('click', onCommentsLoaderElementClick);
 };
 
@@ -41,7 +43,7 @@ const closeModal = () => {
 const onPictureElementClick = (event, data) => {
 
   if (event.target.closest('a.picture')) {
-
+    console.log(event.target.closest('a.picture'));
     const id = event.target.dataset.id - 1;
 
     bigPictureElement.classList.remove('hidden');
