@@ -1,5 +1,5 @@
 import { isEscKey } from './utils';
-import { renderCommentsElement } from './comment';
+import { commentsLoader, loadMoreComments } from './comment';
 
 const bodyElement = document.querySelector('body');
 const picturesElement = bodyElement.querySelector('.pictures');
@@ -9,19 +9,24 @@ const imgElement = bigPictureElement.querySelector('.big-picture__img img');
 const socialCaptionElement = bigPictureElement.querySelector('.social__caption');
 const likesCountElement = bigPictureElement.querySelector('.likes-count');
 const commentTotalElement = bigPictureElement.querySelector('.social__comment-total-count');
-const socialCommentsElement = bigPictureElement.querySelector('.social__comments');
+const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
+
+let onCommentsLoaderElementClick;
 
 const renderPhotos = (photos, index) => {
 
-  const {url, description, likes, comments} = photos[index];
+  const { url, description, likes, comments } = photos[index];
+
+  const loadedComments = commentsLoader(comments);
 
   imgElement.src = url;
   socialCaptionElement.textContent = description;
   likesCountElement.textContent = likes;
   commentTotalElement.textContent = comments.length;
 
-  socialCommentsElement.textContent = null;
-  socialCommentsElement.appendChild(renderCommentsElement(comments));
+  loadMoreComments(loadedComments);
+  onCommentsLoaderElementClick = () => loadMoreComments(loadedComments);
+  commentsLoaderElement.addEventListener('click', onCommentsLoaderElementClick);
 };
 
 const closeModal = () => {
@@ -30,6 +35,7 @@ const closeModal = () => {
   cancelElement.removeEventListener('click', onCancelElementClick);
   document.removeEventListener('keydown', onDocumentKeydown);
   bigPictureElement.removeEventListener('click', onBigPictureElementClick);
+  commentsLoaderElement.removeEventListener('click', onCommentsLoaderElementClick);
 };
 
 const onPictureElementClick = (event, data) => {
@@ -70,3 +76,4 @@ const renderBigPicture = (data) => {
 };
 
 export { renderBigPicture };
+
