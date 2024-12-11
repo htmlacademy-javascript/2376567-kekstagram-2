@@ -13,4 +13,6 @@ const getRandomUniqueInt = (min, max) => {
   };
 };
 
-export {getRandomInt, getRandomUniqueInt};
+const isEscKey = (event) => event.keyCode === 27;
+
+export {getRandomInt, getRandomUniqueInt, isEscKey};

@@ -1,4 +1,4 @@
-const appendPhotos = (data) => {
+const renderPhotos = (data) => {
 
   const picturesElement = document.querySelector('.pictures');
   const pictureTemplate = document.querySelector('#picture').content;
@@ -21,4 +21,4 @@ const appendPhotos = (data) => {
 
 };
 
-export { appendPhotos };
+export { renderPhotos };
