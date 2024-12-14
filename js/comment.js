@@ -12,7 +12,6 @@ const commentsLoader = (data) => {
   let visibleComments = STEP_SHOWN_COMMENTS;
   return () => {
     const shownComments = data.slice(0, visibleComments);
-    commentShownCount.textContent = shownComments.length;
     visibleComments += STEP_SHOWN_COMMENTS;
     return shownComments;
   };
@@ -34,7 +33,7 @@ const createCommentsElement = (comments) => {
   socialCommentsElement.appendChild(socialsFragment);
 };
 
-const updateVisibilityOfLoaderButton = (comments) => {
+const updateShownElement = (comments) => {
   commentShownCount.textContent = comments.length;
   if (commentShownCount.textContent === commentTotalElement.textContent) {
     commentsLoaderElement.classList.add('hidden');
@@ -43,21 +42,19 @@ const updateVisibilityOfLoaderButton = (comments) => {
   }
 };
 
-const renderCommentsElement = (data) => {
+const addCommentsElement = (cb) => {
   socialCommentsElement.textContent = null;
-  const addComments = commentsLoader(data);
-  const renderedComments = addComments();
-  updateVisibilityOfLoaderButton(renderedComments);
+  const renderedComments = cb();
+  updateShownElement(renderedComments);
   createCommentsElement(renderedComments);
+};
 
-  const onCommentsLoaderElement = () => {
-    socialCommentsElement.textContent = null;
-    const newComments = addComments();
-    createCommentsElement(newComments);
-    updateVisibilityOfLoaderButton(newComments);
-  };
+const onCommentsLoaderElement = (comment) => () => addCommentsElement(comment);
 
-  commentsLoaderElement.addEventListener('click', onCommentsLoaderElement);
+const renderCommentsElement = (data) => {
+  const addComments = commentsLoader(data);
+  addCommentsElement(addComments);
+  commentsLoaderElement.addEventListener('click', onCommentsLoaderElement(addComments));
 };
 
 export { renderCommentsElement };
