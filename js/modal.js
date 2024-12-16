@@ -30,10 +30,10 @@ const renderModal = (data) => {
 
   const onPictureElementClick = (event) => {
     const parentLink = event.target.closest('a.picture');
+    const pictures = Array.from(picturesElement.querySelectorAll('.picture'));
     if (parentLink) {
       event.preventDefault();
-      const id = parentLink.dataset.id - 1;
-
+      const id = pictures.indexOf(parentLink);
       bigPictureElement.classList.remove('hidden');
       bodyElement.classList.add('modal-open');
 
