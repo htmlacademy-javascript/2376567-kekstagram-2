@@ -1,4 +1,4 @@
-import { renderCommentsElement } from './comment';
+import { renderComments } from './comments';
 
 const bodyElement = document.body;
 const bigPictureElement = bodyElement.querySelector('.big-picture');
@@ -14,7 +14,7 @@ const renderBigPicture = (photos, index) => {
   socialCaptionElement.textContent = description;
   likesCountElement.textContent = likes;
   commentTotalElement.textContent = comments.length;
-  renderCommentsElement(comments);
+  renderComments(comments);
 };
 
 export { renderBigPicture };
