@@ -26,7 +26,7 @@ const onBigPictureElementClick = (evt) => {
   }
 };
 
-const renderPhotos = (photos, index) => {
+const renderBigPicture = (photos, index) => {
   const { url, description, likes, comments } = photos[index];
   imgElement.src = url;
   socialCaptionElement.textContent = description;
@@ -50,7 +50,7 @@ const renderModal = (data) => {
       bigPictureElement.classList.remove('hidden');
       bodyElement.classList.add('modal-open');
 
-      renderPhotos(data, id);
+      renderBigPicture(data, id);
     }
   };
 
