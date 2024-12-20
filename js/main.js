@@ -1,4 +1,7 @@
 import { createPhotos } from './data.js';
-import { appendPhotos } from './preview.js';
+import { renderPhotos } from './preview.js';
+import { renderModal } from './modal.js';
 
-appendPhotos(createPhotos(25));
+const data = createPhotos(25);
+renderPhotos(data);
+renderModal(data);

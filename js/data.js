@@ -65,11 +65,15 @@ const createComments = (quantity, dataMessage, dataName) => {
     MIN: 0,
     MAX: 7,
   };
+
+  const AvatarQty = {
+    MIN: 1,
+    MAX: 6,
+  };
   const randomId = getRandomUniqueInt(1, quantity);
-  const randomUrl = getRandomUniqueInt(1, quantity);
   return Array.from({ length: quantity }).map(() => ({
     id: randomId(),
-    avatar: createUrl(randomUrl(), true),
+    avatar: createUrl(getRandomInt(AvatarQty.MIN, AvatarQty.MAX), true),
     message: createRandomMassege(dataMessage),
     name: dataName[getRandomInt(DataNameRange.MIN, DataNameRange.MAX)],
   }));
@@ -88,10 +92,13 @@ const createPhotos = (quantity) => {
     MIN: 0,
     MAX: 30,
   };
-  const randomId = getRandomUniqueInt(1, quantity);
-  const randomUrl = getRandomUniqueInt(1, quantity);
+  const GetRandomUrlRange = {
+    MIN: 1,
+    MAX: quantity,
+  };
+
+  const randomUrl = getRandomUniqueInt(GetRandomUrlRange.MIN, GetRandomUrlRange.MAX);
   return Array.from({ length: quantity }).map(() => ({
-    id: randomId(),
     url: createUrl(randomUrl()),
     description: descriptions[getRandomInt(DescriptionsRange.MIN, DescriptionsRange.MAX)],
     likes: getRandomInt(LikesRange.MIN, LikesRange.MAX),
