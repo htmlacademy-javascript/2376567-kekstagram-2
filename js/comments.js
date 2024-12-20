@@ -1,7 +1,6 @@
 import { renderCommentItem } from './comment';
 
-const bodyElement = document.querySelector('body');
-const bigPictureElement = bodyElement.querySelector('.big-picture');
+const bigPictureElement = document.querySelector('.big-picture');
 const socialCommentsElement = bigPictureElement.querySelector('.social__comments');
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 const commentShownCount = bigPictureElement.querySelector('.social__comment-shown-count');

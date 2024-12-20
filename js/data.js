@@ -92,19 +92,13 @@ const createPhotos = (quantity) => {
     MIN: 0,
     MAX: 30,
   };
-  const GetRandomIdRange = {
-    MIN: 0,
-    MAX: quantity - 1,
-  };
   const GetRandomUrlRange = {
     MIN: 1,
     MAX: quantity,
   };
 
-  const randomId = getRandomUniqueInt(GetRandomIdRange.MIN, GetRandomIdRange.MAX);
   const randomUrl = getRandomUniqueInt(GetRandomUrlRange.MIN, GetRandomUrlRange.MAX);
   return Array.from({ length: quantity }).map(() => ({
-    id: randomId(),
     url: createUrl(randomUrl()),
     description: descriptions[getRandomInt(DescriptionsRange.MIN, DescriptionsRange.MAX)],
     likes: getRandomInt(LikesRange.MIN, LikesRange.MAX),

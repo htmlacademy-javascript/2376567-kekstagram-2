@@ -1,5 +1,4 @@
-const bodyElement = document.querySelector('body');
-const bigPictureElement = bodyElement.querySelector('.big-picture');
+const bigPictureElement = document.querySelector('.big-picture');
 const commentTemplateElement = bigPictureElement.querySelector('.social__comment');
 
 const renderCommentItem = ({ avatar, name, message }) => {

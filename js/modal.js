@@ -1,16 +1,15 @@
 import { isEscKey } from './utils';
 import { renderComments } from './comments';
 
-const bodyElement = document.body;
-const picturesElement = bodyElement.querySelector('.pictures');
-const bigPictureElement = bodyElement.querySelector('.big-picture');
+const picturesElement = document.querySelector('.pictures');
+const bigPictureElement = document.querySelector('.big-picture');
 const imgElement = bigPictureElement.querySelector('.big-picture__img img');
 const socialCaptionElement = bigPictureElement.querySelector('.social__caption');
 const likesCountElement = bigPictureElement.querySelector('.likes-count');
 const commentTotalElement = bigPictureElement.querySelector('.social__comment-total-count');
 
 const closeModal = () => {
-  bodyElement.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   bigPictureElement.classList.add('hidden');
 };
 
@@ -26,31 +25,26 @@ const onBigPictureElementClick = (evt) => {
   }
 };
 
-const renderBigPicture = (photos, index) => {
-  const { url, description, likes, comments } = photos[index];
-  imgElement.src = url;
-  socialCaptionElement.textContent = description;
-  likesCountElement.textContent = likes;
-  commentTotalElement.textContent = comments.length;
-  renderComments(comments);
-};
-
 bigPictureElement.addEventListener('click', onBigPictureElementClick);
 document.addEventListener('keydown', onDocumentKeydown);
 
-
-const renderModal = (data) => {
+const renderModal = (photos) => {
 
   const onPictureElementClick = (event) => {
     const parentLink = event.target.closest('a.picture');
     const pictures = Array.from(picturesElement.querySelectorAll('.picture'));
     if (parentLink) {
       event.preventDefault();
-      const id = pictures.indexOf(parentLink);
+      const index = pictures.indexOf(parentLink);
       bigPictureElement.classList.remove('hidden');
-      bodyElement.classList.add('modal-open');
+      document.body.classList.add('modal-open');
 
-      renderBigPicture(data, id);
+      const { url, description, likes, comments } = photos[index];
+      imgElement.src = url;
+      socialCaptionElement.textContent = description;
+      likesCountElement.textContent = likes;
+      commentTotalElement.textContent = comments.length;
+      renderComments(comments);
     }
   };
 
