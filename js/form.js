@@ -1,5 +1,6 @@
 import { isEscKey } from './utils';
 import { loadValidation, clearValidation } from './validation';
+import { addImgRedactor, resetImgRedactor } from './edit-picture';
 
 const imgUploadFormElement = document.querySelector('.img-upload__form');
 
@@ -9,6 +10,7 @@ const textDescriptionElement = imgUploadFormElement.querySelector('.text__descri
 
 const loadForm = () => {
   loadValidation();
+  addImgRedactor();
 };
 
 const closeForm = () => {
@@ -17,6 +19,7 @@ const closeForm = () => {
 
   imgUploadFormElement.reset();
   clearValidation();
+  resetImgRedactor();
 };
 
 imgUploadFormElement.addEventListener('change', () => {
