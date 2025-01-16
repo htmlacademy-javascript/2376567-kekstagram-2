@@ -1,25 +1,14 @@
 import '../vendor/nouislider/nouislider.js';
 
-const MIN_ZOOM_SCALE = 25;
-const MAX_ZOOM_SCALE = 100;
-const STEP_ZOOM_SCALE = 25;
-const DENOM_ZOOM_SCALE = 100;
-const START_SCALE_VALUE = 100;
+const ScaleSettings = {
+  MIN_ZOOM: 25,
+  MAX_ZOOM: 100,
+  STEP_ZOOM: 25,
+  DENOM_ZOOM: 100,
+  START_VALUE: 100,
+};
 
-const imgUploadScaleElement = document.querySelector('.img-upload__scale');
-const scaleControlValueElement = imgUploadScaleElement.querySelector('.scale__control--value');
-
-const imgUploadPreviewElement = document.querySelector('.img-upload__preview img');
-
-const effectLevelElement = document.querySelector('.img-upload__effect-level');
-
-const effectsListElement = document.querySelector('.effects__list');
-
-const sliderElement = document.querySelector('.effect-level__slider');
-
-const effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
-
-const effects = {
+const Effects = {
   none: {
     value: 'none',
     id: 'effect-none',
@@ -77,16 +66,29 @@ const effects = {
   },
 };
 
+const imgUploadScaleElement = document.querySelector('.img-upload__scale');
+const scaleControlValueElement = imgUploadScaleElement.querySelector('.scale__control--value');
+
+const imgUploadPreviewElement = document.querySelector('.img-upload__preview img');
+
+const effectLevelElement = document.querySelector('.img-upload__effect-level');
+
+const effectsListElement = document.querySelector('.effects__list');
+
+const sliderElement = document.querySelector('.effect-level__slider');
+
+const effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
+
 let scaleValue = parseInt(scaleControlValueElement.value, 10);
 
 imgUploadScaleElement.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('scale__control--smaller')) {
-    scaleValue = Math.max(scaleValue - STEP_ZOOM_SCALE, MIN_ZOOM_SCALE);
+    scaleValue = Math.max(scaleValue - ScaleSettings.STEP_ZOOM, ScaleSettings.MIN_ZOOM);
   }
   if (evt.target.classList.contains('scale__control--bigger')) {
-    scaleValue = Math.min(scaleValue + STEP_ZOOM_SCALE, MAX_ZOOM_SCALE);
+    scaleValue = Math.min(scaleValue + ScaleSettings.STEP_ZOOM, ScaleSettings.MAX_ZOOM);
   }
-  imgUploadPreviewElement.style.transform = `scale(${scaleValue / DENOM_ZOOM_SCALE})`;
+  imgUploadPreviewElement.style.transform = `scale(${scaleValue / ScaleSettings.DENOM_ZOOM})`;
   scaleControlValueElement.value = `${scaleValue}%`;
 });
 
@@ -123,18 +125,18 @@ effectsListElement.addEventListener('change', (evt) => {
     effectLevelElement.classList.remove('hidden');
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: effects[evt.target.value].min,
-        max: effects[evt.target.value].max,
+        min: Effects[evt.target.value].min,
+        max: Effects[evt.target.value].max,
       },
-      start: effects[evt.target.value].start,
-      step: effects[evt.target.value].step,
+      start: Effects[evt.target.value].start,
+      step: Effects[evt.target.value].step,
     });
 
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValueElement.value = sliderElement.noUiSlider.get();
 
-      const effectValue = effects[evt.target.value].filter;
-      const unit = effects[evt.target.value].unit;
+      const effectValue = Effects[evt.target.value].filter;
+      const unit = Effects[evt.target.value].unit;
 
       imgUploadPreviewElement.style.filter = `${effectValue}(${effectLevelValueElement.value}${unit})`;
     });
@@ -148,8 +150,8 @@ const addImgRedactor = () => {
 
 const resetImgRedactor = () => {
   sliderElement.noUiSlider.reset();
-  scaleValue = START_SCALE_VALUE;
-  imgUploadPreviewElement.style.transform = `scale(${scaleValue / DENOM_ZOOM_SCALE})`;
+  scaleValue = ScaleSettings.START_VALUE;
+  imgUploadPreviewElement.style.transform = `scale(${scaleValue / ScaleSettings.DENOM_ZOOM})`;
   effectLevelElement.classList.add('hidden');
   imgUploadPreviewElement.style.filter = '';
 };

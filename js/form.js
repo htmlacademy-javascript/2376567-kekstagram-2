@@ -1,12 +1,15 @@
 import { isEscKey } from './utils';
 import { loadValidation, clearValidation } from './validation';
 import { addImgRedactor, resetImgRedactor } from './edit-picture';
+import { postData } from './api';
+import { showMessage } from './messages';
 
 const imgUploadFormElement = document.querySelector('.img-upload__form');
 
 const imgUploadOverlayElement = imgUploadFormElement.querySelector('.img-upload__overlay');
 const textHashtagsElement = imgUploadFormElement.querySelector('.text__hashtags');
 const textDescriptionElement = imgUploadFormElement.querySelector('.text__description');
+const imgUploadSubmitElement = imgUploadFormElement.querySelector('.img-upload__submit');
 
 const loadForm = () => {
   loadValidation();
@@ -50,6 +53,21 @@ textHashtagsElement.addEventListener('keydown', (evt) => {
 textDescriptionElement.addEventListener('keydown', (evt) => {
   if (isEscKey(evt)) {
     evt.stopPropagation();
+  }
+});
+
+imgUploadFormElement.addEventListener('submit', async (evt) => {
+  evt.preventDefault();
+  const formDataObject = new FormData(evt.target);
+  try {
+    imgUploadSubmitElement.setAttribute('disabled', '');
+    await postData(formDataObject);
+    closeForm();
+    showMessage(true);
+  } catch (error) {
+    showMessage(false);
+  } finally {
+    imgUploadSubmitElement.removeAttribute('disabled','');
   }
 });
 
