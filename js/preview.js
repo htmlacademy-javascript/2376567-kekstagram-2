@@ -1,8 +1,10 @@
 const renderPhotos = (data) => {
-
   const picturesElement = document.querySelector('.pictures');
   const pictureTemplate = document.querySelector('#picture').content;
   const photosFragment = new DocumentFragment();
+
+  const picture = Array.from(picturesElement.querySelectorAll('.picture'));
+  picture.forEach((element) => element.remove());
 
   data.forEach(({id, url, description, likes, comments}) => {
     const clonedPictureTemplate = pictureTemplate.cloneNode(true);
