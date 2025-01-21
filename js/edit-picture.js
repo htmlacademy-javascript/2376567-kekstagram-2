@@ -8,7 +8,7 @@ const ScaleSettings = {
   START_VALUE: 100,
 };
 
-const Effects = {
+const effects = {
   none: {
     value: 'none',
     id: 'effect-none',
@@ -125,18 +125,18 @@ effectsListElement.addEventListener('change', (evt) => {
     effectLevelElement.classList.remove('hidden');
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: Effects[evt.target.value].min,
-        max: Effects[evt.target.value].max,
+        min: effects[evt.target.value].min,
+        max: effects[evt.target.value].max,
       },
-      start: Effects[evt.target.value].start,
-      step: Effects[evt.target.value].step,
+      start: effects[evt.target.value].start,
+      step: effects[evt.target.value].step,
     });
 
     sliderElement.noUiSlider.on('update', () => {
       effectLevelValueElement.value = sliderElement.noUiSlider.get();
 
-      const effectValue = Effects[evt.target.value].filter;
-      const unit = Effects[evt.target.value].unit;
+      const effectValue = effects[evt.target.value].filter;
+      const unit = effects[evt.target.value].unit;
 
       imgUploadPreviewElement.style.filter = `${effectValue}(${effectLevelValueElement.value}${unit})`;
     });

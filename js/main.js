@@ -1,8 +1,6 @@
-// import { createPhotos } from './data.js';
 import { getData } from './api.js';
-import { renderPhotos } from './preview.js';
-import { renderModal } from './modal.js';
 import { loadForm } from './form.js';
+import { loadFilter } from './filter.js';
 
 const ERROR_SHOWN_TIME = 5000;
 
@@ -15,10 +13,11 @@ const onErrorGet = () => {
 
 loadForm();
 
-try {
-  const data = await getData();
-  renderPhotos(data);
-  renderModal(data);
-} catch (error) {
-  onErrorGet();
-}
+(async () => {
+  try {
+    const data = await getData();
+    loadFilter(data);
+  } catch (error) {
+    onErrorGet();
+  }
+})();
