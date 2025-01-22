@@ -23,7 +23,7 @@ const getRandomPictures = (pictures) => {
 
 const getPopularPictures = (pictures) => pictures.slice().sort((elementA,elementB) => elementB.comments.length - elementA.comments.length);
 
-const debouncedFunction = debounce((button) => {
+const debouncedPictureFiltration = debounce((button) => {
 
   let filteredData;
 
@@ -52,7 +52,7 @@ imgFiltersElement.addEventListener('click', (evt) => {
       button.classList.remove('img-filters__button--active');
     });
     filterButton.classList.add('img-filters__button--active');
-    debouncedFunction(filterButton);
+    debouncedPictureFiltration(filterButton);
   }
 });
 

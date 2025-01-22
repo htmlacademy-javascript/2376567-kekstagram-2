@@ -3,6 +3,7 @@ import { loadValidation, clearValidation } from './validation';
 import { addImgRedactor, resetImgRedactor } from './edit-picture';
 import { postData } from './api';
 import { showMessage } from './messages';
+import { imgLoader } from './load-picture';
 
 const imgUploadFormElement = document.querySelector('.img-upload__form');
 
@@ -14,11 +15,13 @@ const imgUploadSubmitElement = imgUploadFormElement.querySelector('.img-upload__
 const loadForm = () => {
   loadValidation();
   addImgRedactor();
+  imgLoader();
 };
 
 const closeForm = () => {
   document.body.classList.remove('modal-open');
   imgUploadOverlayElement.classList.add('hidden');
+  document.removeEventListener('keydown', onDocumentKeydown);
 
   imgUploadFormElement.reset();
   clearValidation();
@@ -28,18 +31,13 @@ const closeForm = () => {
 imgUploadFormElement.addEventListener('change', () => {
   document.body.classList.add('modal-open');
   imgUploadOverlayElement.classList.remove('hidden');
+  document.addEventListener('keydown', onDocumentKeydown);
 });
 
 imgUploadOverlayElement.addEventListener('click', (evt) => {
   const isOverlayElement = evt.target.classList.contains('img-upload__overlay');
   const isCancelButtonElement = evt.target.classList.contains('img-upload__cancel');
   if (isOverlayElement || isCancelButtonElement) {
-    closeForm();
-  }
-});
-
-document.addEventListener('keydown', (evt) => {
-  if (isEscKey(evt)) {
     closeForm();
   }
 });
@@ -55,6 +53,12 @@ textDescriptionElement.addEventListener('keydown', (evt) => {
     evt.stopPropagation();
   }
 });
+
+function onDocumentKeydown(evt) {
+  if (isEscKey(evt) && !document.querySelector('.error')) {
+    closeForm();
+  }
+}
 
 imgUploadFormElement.addEventListener('submit', async (evt) => {
   evt.preventDefault();
