@@ -1,8 +1,9 @@
 import { isEscKey } from './utils';
-import { loadValidation, clearValidation } from './validation';
+import { loadValidation, clearValidation, pristine } from './validation';
 import { addImgRedactor, resetImgRedactor } from './edit-picture';
 import { postData } from './api';
 import { showMessage } from './messages';
+import { imgLoader } from './load-picture';
 
 const imgUploadFormElement = document.querySelector('.img-upload__form');
 
@@ -10,15 +11,19 @@ const imgUploadOverlayElement = imgUploadFormElement.querySelector('.img-upload_
 const textHashtagsElement = imgUploadFormElement.querySelector('.text__hashtags');
 const textDescriptionElement = imgUploadFormElement.querySelector('.text__description');
 const imgUploadSubmitElement = imgUploadFormElement.querySelector('.img-upload__submit');
+const uploadSubmitButtonElement = imgUploadFormElement.querySelector('#upload-submit');
 
 const loadForm = () => {
   loadValidation();
   addImgRedactor();
+  imgLoader();
 };
 
 const closeForm = () => {
   document.body.classList.remove('modal-open');
   imgUploadOverlayElement.classList.add('hidden');
+  document.removeEventListener('keydown', onDocumentKeydown);
+  imgUploadFormElement.removeEventListener('input', onImgUploadFormElementInput);
 
   imgUploadFormElement.reset();
   clearValidation();
@@ -28,18 +33,14 @@ const closeForm = () => {
 imgUploadFormElement.addEventListener('change', () => {
   document.body.classList.add('modal-open');
   imgUploadOverlayElement.classList.remove('hidden');
+  document.addEventListener('keydown', onDocumentKeydown);
+  imgUploadFormElement.addEventListener('input', onImgUploadFormElementInput);
 });
 
 imgUploadOverlayElement.addEventListener('click', (evt) => {
   const isOverlayElement = evt.target.classList.contains('img-upload__overlay');
   const isCancelButtonElement = evt.target.classList.contains('img-upload__cancel');
   if (isOverlayElement || isCancelButtonElement) {
-    closeForm();
-  }
-});
-
-document.addEventListener('keydown', (evt) => {
-  if (isEscKey(evt)) {
     closeForm();
   }
 });
@@ -56,19 +57,35 @@ textDescriptionElement.addEventListener('keydown', (evt) => {
   }
 });
 
-imgUploadFormElement.addEventListener('submit', async (evt) => {
+function onDocumentKeydown(evt) {
+  if (isEscKey(evt) && !document.querySelector('.error')) {
+    closeForm();
+  }
+}
+
+function onImgUploadFormElementInput() {
+  if (!pristine.validate()) {
+    uploadSubmitButtonElement.setAttribute('disabled', '');
+  } else {
+    uploadSubmitButtonElement.removeAttribute('disabled','');
+  }
+}
+
+imgUploadFormElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const formDataObject = new FormData(evt.target);
-  try {
-    imgUploadSubmitElement.setAttribute('disabled', '');
-    await postData(formDataObject);
-    closeForm();
-    showMessage(true);
-  } catch (error) {
-    showMessage(false);
-  } finally {
-    imgUploadSubmitElement.removeAttribute('disabled','');
-  }
+  imgUploadSubmitElement.setAttribute('disabled', '');
+  postData(formDataObject)
+    .then(() =>{
+      showMessage(true);
+      closeForm();
+    })
+    .catch(()=> {
+      showMessage(false);
+    })
+    .finally(()=> {
+      imgUploadSubmitElement.removeAttribute('disabled','');
+    });
 });
 
 export { loadForm };

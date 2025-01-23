@@ -1,12 +1,12 @@
 import { renderCommentItem } from './comment';
 
+const STEP_SHOWN_COMMENTS = 5;
+
 const bigPictureElement = document.querySelector('.big-picture');
 const socialCommentsElement = bigPictureElement.querySelector('.social__comments');
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 const commentShownCount = bigPictureElement.querySelector('.social__comment-shown-count');
 const commentTotalElement = bigPictureElement.querySelector('.social__comment-total-count');
-
-const STEP_SHOWN_COMMENTS = 5;
 
 let counter = 0;
 let currentComments;

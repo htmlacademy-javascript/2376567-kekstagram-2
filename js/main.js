@@ -13,11 +13,10 @@ const onErrorGet = () => {
 
 loadForm();
 
-(async () => {
-  try {
-    const data = await getData();
+getData()
+  .then((data) => {
     loadFilter(data);
-  } catch (error) {
+  })
+  .catch(() => {
     onErrorGet();
-  }
-})();
+  });

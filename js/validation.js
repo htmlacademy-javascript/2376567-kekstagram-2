@@ -91,4 +91,5 @@ const clearValidation = () => {
 export {
   loadValidation,
   clearValidation,
+  pristine
 };
