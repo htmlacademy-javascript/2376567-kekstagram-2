@@ -27,15 +27,15 @@ const returnCommentErrMessage = (value) => {
 
 const returnHashTagErrMessage = (value) => {
   let message = '';
-  const elementValue = value.trim().toLowerCase().split(/ +/g);
-  const elementSet = new Set();
+  const valueElements = value.trim().toLowerCase().split(/ +/g);
+  const setOfElements = new Set();
 
-  if (elementValue.length > MAX_COUNT) {
+  if (valueElements.length > MAX_COUNT) {
     message = `Максимум ${MAX_COUNT} хэш-тегов`;
     return message;
   }
 
-  elementValue.forEach((element, index) => {
+  valueElements.forEach((element, index) => {
     if (index === 0 && element.length === 0) {
       return message;
     }
@@ -65,12 +65,12 @@ const returnHashTagErrMessage = (value) => {
       return message;
     }
 
-    if (elementSet.has(element)) {
+    if (setOfElements.has(element)) {
       message = 'Хэш-теги не должны повторяться';
       return message;
     }
 
-    elementSet.add(element);
+    setOfElements.add(element);
   });
 
   return message;
