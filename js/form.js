@@ -3,7 +3,7 @@ import { loadValidation, clearValidation, pristine } from './validation';
 import { addImgRedactor, resetImgRedactor } from './edit-picture';
 import { postData } from './api';
 import { showMessage } from './messages';
-import { imgLoader } from './load-picture';
+import { loadImage } from './load-picture';
 
 const imgUploadFormElement = document.querySelector('.img-upload__form');
 
@@ -16,7 +16,7 @@ const uploadSubmitButtonElement = imgUploadFormElement.querySelector('#upload-su
 const loadForm = () => {
   loadValidation();
   addImgRedactor();
-  imgLoader();
+  loadImage();
 };
 
 const closeForm = () => {

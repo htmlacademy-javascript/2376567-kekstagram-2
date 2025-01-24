@@ -4,7 +4,7 @@ const inputUploadFile = document.querySelector('#upload-file');
 const previewPicture = document.querySelector('.img-upload__preview>img');
 const effectsPreview = document.querySelectorAll('.effects__preview');
 
-const imgLoader = () => {
+const loadImage = () => {
   inputUploadFile.addEventListener('change', () => {
     const file = inputUploadFile.files[0];
     const fileName = file.name.toLowerCase();
@@ -21,4 +21,4 @@ const imgLoader = () => {
   });
 };
 
-export { imgLoader };
+export { loadImage };
